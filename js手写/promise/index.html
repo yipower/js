@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    const PENDING = 'pending';
+    const FULFILLED = 'fulfilled';
+    const REJECTED = 'rejected';
+
+    class myPromise {
+        constructor(executor) {
+            executor(this.resolve, this.reject);
+        }
+        status = PENDING
+        value = null
+        reason = null;
+        onFulfilledCallbacks = [];
+        onRejectedCallbacks = [];
+        resolve = value => {
+            if (status = PENDING) {
+                status = FULFILLED
+                this.value = value;
+                while (this.onFulfilledCallbacks.length) {
+                    //  取出数组第一个元素，然后（）调用，shift不是纯函数，取出后，数组将失去该元素，直到数组为空
+                    this.onFulfilledCallbacks.shift()(value)
+                }
+
+            }
+        }
+
+        reject = reason => {
+            if (status = PENDING) {
+                this.status = REJECTED
+                this.reason = reason;
+                while (this.onRejectedCallbacks.length) {
+                    this.onRejectedCallbacks.shift()(reason)
+                }
+            }
+        }
+
+        then(onFulfilled, onRejected) {
+
+            const promise2 = new myPromise((resolve, reject) => {
+                // 这里的内容在执行器中，会立即执行
+                if (this.status === FULFILLED) {
+                    // 获取成功回调函数的执行结果
+                    const x = onFulfilled(this.value);
+                    // 传入 resolvePromise 集中处理
+                    resolvePromise(x, resolve, reject);
+                } else if (this.status === REJECTED) {
+                    onRejected(this.reason);
+                } else if (this.status === PENDING) {
+                    this.onFulfilledCallbacks.push(onFulfilled);
+                    this.onRejectedCallbacks.push(onRejected);
+                }
+            })
+
+            return promise2;
+        }
+    }
+
+    function resolvePromise(x, resolve, reject) {
+        // 判断x是不是 myPromise 实例对象
+        if (x instanceof myPromise) {
+            // 执行 x，调用 then 方法，目的是将其状态变为 fulfilled 或者 rejected
+            // x.then(value => resolve(value), reason => reject(reason))
+            // 简化之后
+            x.then(resolve, reject)
+        } else {
+            // 普通值
+            resolve(x)
+        }
+    }
+
+
+    const promise = new myPromise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('success')
+        }, 2000);
+
+    })
+
+    // promise.then(value => {
+    //     console.log(1)
+    //     console.log('resolve', value)
+    // })
+
+    // promise.then(value => {
+    //     console.log(2)
+    //     console.log('resolve', value)
+    // })
+
+    // promise.then(value => {
+    //     console.log(3)
+    //     console.log('resolve', value)
+    // })
+    promise.then(value => {
+        console.log(1)
+        console.log('resolve', value)
+
+    }).then(value => {
+        console.log(2)
+        console.log('resolve', value)
+    })
+</script>
+
+</html>

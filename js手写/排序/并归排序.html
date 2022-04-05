@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let arr = [6, 4, 9, 4, 2, 4, 3, 7, 5, 2, 1, 8, 3, 5, 6]
+
+    function mergeSort(arr) {
+        if (arr.length < 2) return arr
+        const mid = Math.floor(arr.length / 2)
+        const left = arr.slice(0, mid)
+        const right = arr.slice(mid)
+        //递归排好
+        return merg(mergeSort(left), mergeSort(right))
+    }
+
+    function merg(left, right) {
+        let result = [];
+        let i = 0,
+            j = 0
+
+        while (i < left.length && j<right.length) {
+            if (left[i] < right[j]) {
+                result.push(left[i])
+                i++
+            } else {
+                result.push(right[j])
+                j++
+
+            }
+        }
+        if (i < left.length) {
+            result.push(...left.slice(i))
+        }
+        if (j < right.length) {
+            result.push(...right.slice(j))
+        }
+        return result
+    }
+    console.log(mergeSort(arr));
+</script>
+
+</html>

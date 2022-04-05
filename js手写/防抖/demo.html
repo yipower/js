@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+
+<script>
+    // function debounce(fn,delay) {
+    //     let timer;
+    //     return function(...args) {
+
+    //         if(timer){
+    //             clearTimeout(timer);
+    //         }
+    //         timer = setTimeout(fn    ,delay);
+    //     }
+    // }
+    // function task(){
+    //     console.log("demo");
+    // }
+
+    // function debounce(fn,delay){
+    //     return function(){
+    //         let args = arguments
+    //         let timer 
+    //         if (timer) {
+    //             clearTimeout(timer);
+    //         }
+    //         timer = setTimeout(fn,delay);
+    //     }
+    // }
+
+    // const debouncetest = debounce(task,1000)
+    // window.addEventListener("scroll",debouncetest)
+    function throttle(fn, delay) {
+        //记录上一次函数触发的时间
+        var lastTime = 0;
+        return function () {
+            //记录当前函数触发的时间
+            var nowTime = Date.now();
+            if (nowTime - lastTime > delay) {
+                //修正this指向问题
+                fn.call(this)
+                //同步执行结束时间
+                lastTime = nowTime;
+            }
+        }
+    }
+
+    document.onscroll = throttle(function () {
+        console.log('scllor事件被触发了' + Date.now());
+    }, 2000);
+</script>
+
+</html>

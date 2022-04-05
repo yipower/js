@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //第一种JSON方法 undefined、function、symbol 会在转换过程中被忽略。。。
+
+    // const oldObj = {
+    //     name: 'axuebin',
+    //     sayHello: function () {
+    //         console.log('Hello World');
+    //     }
+    // }
+    // let newObj = JSON.parse(JSON.stringify(oldObj));
+    // console.log(newObj);
+    // console.log(newObj === oldObj);
+
+    // 第二种用哈希表
+    // function deepClone(oldObj,hash = new WeakMap()) {
+    //     if(oldObj ==null || typeof oldObj !==object) {
+    //         return oldObj
+    //     }
+    //     if(oldObj instanceof Date) return Date(oldObj)
+    //     if(oldObj instanceof RegExp) return RegExp(oldObj)
+    //     if(hash.has(oldObj))  return hash.get(old)
+    //     let newObj = Array.isArray(oldObj) ?[]:{}
+    //     hash.set(oldObj,newObj)
+    //     for( let key in oldObj) {
+    //         if(oldObj.hasOwnProperty(key)){
+    //             newObj[key] = deepClone(oldObj[key],)
+    //         }
+    //     }
+    //     return newObj
+    // }
+
+    // function deepClone(obj, map = new WeakMap()) {
+    //     if (obj === null) return obj
+    //     if (typeof obj != "object") return obj
+    //     if (obj instanceof Date) return Date(obj)
+    //     if (obj instanceof RegExp) return RegExp(obj)
+    //     if (map.has(obj)) return map.get(obj)
+
+    //     let newObj = Array.isArray(obj) ? [] : {}
+    //     map.set(obj, newObj)
+    //     for (let key in obj) {
+    //         if (obj.hasOwnProperty(key)) {
+    //                 newObj[key] = deepClone(obj[key], map)
+    //             }
+
+    //         }
+    //         return newObj
+    //     }
+    //     let a = {
+    //         a: [1],
+    //         b: {
+    //             c: {
+    //                 f: {}
+    //             }
+    //         }
+    //     }
+    //     console.log(deepClone(a));
+
+    function deepClone(obj, map = new WeakMap()) {
+        if (obj === null || typeof obj !== "object") return obj;
+        if (obj instanceof Date) return Date(obj);
+        if (obj instanceof RegExp) return RegExp(obj)
+        if (map.has(obj)) return map.get(obj)
+        let newObj = Array.isArray(obj) ? [] : {}
+        map.set(obj, newObj)
+
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                newObj[key] = deepClone(obj[key], map)
+            }
+        }
+
+        return newObj
+    }
+    let a = {
+        a: [1],
+        b: {
+            c: {
+                f: {}
+            }
+        }
+    }
+    console.log(deepClone(a));
+</script>
+
+</html>
